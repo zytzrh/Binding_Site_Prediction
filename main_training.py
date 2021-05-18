@@ -39,7 +39,7 @@ transformations = (
 
 # Load the train dataset:
 train_dataset = ProteinPairsSurfaces(
-    "surface_data", ppi=args.search, train=True, transform=transformations
+    "../surface_data", ppi=args.search, train=True, transform=transformations
 )
 train_dataset = [data for data in train_dataset if iface_valid_filter(data)]
 
@@ -54,6 +54,8 @@ test_dataset = ProteinPairsSurfaces(
     "surface_data", ppi=args.search, train=False, transform=transformations
 )
 test_dataset = [data for data in test_dataset if iface_valid_filter(data)]
+
+print(train_dataset.__getitem__(0))
 
 # PyTorch geometric expects an explicit list of "batched variables":
 batch_vars = ["xyz_p1", "xyz_p2", "atom_coords_p1", "atom_coords_p2"]

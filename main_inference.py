@@ -78,6 +78,20 @@ info = iterate(
     save_path=save_predictions_path,
     pdb_ids=test_pdb_ids,
 )
+# Write down the results using a TensorBoard writer:
+for key, val in info.items():
+    if key in [
+        "Loss",
+        "ROC-AUC",
+        "Distance/Positives",
+        "Distance/Negatives",
+        "Matching ROC-AUC",
+    ]:
+        print(f"{key}", np.mean(val))
+
+    if "R_values/" in key:
+        val = np.array(val)
+        print(f"{key}", np.mean(val[val > 0]))
 
 np.save(f"timings/{args.experiment_name}_convtime.npy", info["conv_time"])
 np.save(f"timings/{args.experiment_name}_memoryusage.npy", info["memory_usage"])
